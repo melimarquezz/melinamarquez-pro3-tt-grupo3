@@ -65,7 +65,7 @@ class Register extends Component {
 
                 <TouchableOpacity onPress={() => this.register(this.state.email, this.state.password, this.state.username)}>
                     <Text>
-                        Registate!!
+                        Registrate!!
                     </Text>
                 </TouchableOpacity>
             </View>
