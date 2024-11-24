@@ -14,6 +14,14 @@ class Login extends Component{
             error: ''
         }
     }
+// voy chequeando si funciona, estoy trabado aca, sigo con el boton de like
+    componentDidMount() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                this.props.navigation.navigate("LoggedMenu");
+            }
+        });
+    }
 
     login(email, pass){
         if (!email.includes('@')) {
@@ -26,7 +34,7 @@ class Login extends Component{
             auth.signInWithEmailAndPassword(email, pass)
             .then((response) => {
                 this.setState({loggedIn: true});
-                this.props.navigation.navigate("Home") // aca no se si esto esta bien o si va LoggedMenu
+                this.props.navigation.navigate("LoggedMenu") // aca no se si esto esta bien o si va LoggedMenu
             })
             .catch(error => {
                 return(this.setState({error:'credenciales invalidas'}))
