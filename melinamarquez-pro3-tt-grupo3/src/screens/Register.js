@@ -19,6 +19,12 @@ class Register extends Component {
     }
 
     register(email, pass, username) {
+        if (!email.includes('@')) {
+            return(this.setState({error: 'Email no existe'}))
+        }
+        else if (pass.length < 6){
+            return(this.setState({error:'La contraseña debe tener al menos 6 caracteres'}))
+        } else {
         auth.createUserWithEmailAndPassword(email, pass)
             .then(response => {
                 this.setState({ registered: true });
@@ -36,6 +42,7 @@ class Register extends Component {
             .catch(error => {
                 this.setState({ error: 'Fallo en el registro' })
             })
+        }
 
     }
 
@@ -66,6 +73,11 @@ class Register extends Component {
                 <TouchableOpacity onPress={() => this.register(this.state.email, this.state.password, this.state.username)}>
                     <Text>
                         Registrate
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Login")}>
+                    <Text>
+                        Log In
                     </Text>
                 </TouchableOpacity>
             </View>
