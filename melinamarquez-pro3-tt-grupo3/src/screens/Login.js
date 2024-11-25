@@ -18,7 +18,7 @@ class Login extends Component{
     componentDidMount() {
         auth.onAuthStateChanged((user) => {
             if (user) {
-                this.props.navigation.navigate("LoggedMenu");
+                this.props.navigation.navigate("Home");
             }
         });
     }
@@ -37,84 +37,97 @@ class Login extends Component{
                 this.props.navigation.navigate("LoggedMenu") // aca no se si esto esta bien o si va LoggedMenu
             })
             .catch(error => {
-                return(this.setState({error:'credenciales invalidas'}))
+                return(this.setState({error:'Contraseña incorrecta'}))
 
                 console.log(error);
             })
         
     }
 
-    render(){
-        return(
-            <View style = {styles.container}>
-                <Text>Formulario de Login</Text>
-                <TextInput style = {styles.fields}
-                        keyboardType="email-adress"
-                        placeholder="email"
-                        onChangeText={ text => this.setState({email:text})}
-                        value= {this.state.email}
-                    />
-                <TextInput style = {styles.fields}
-                    keyboardType="default"
-                    placeholder="contraseña"
-                    secureTextEntry= {true}
-                    onChangeText={ text => this.setState({password:text})}
-                    value= {this.state.password}
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Formulario de Login</Text>
+                <TextInput
+                    style={styles.input}
+                    keyboardType="email-address"
+                    placeholder="Correo electrónico"
+                    onChangeText={(text) => this.setState({ email: text })}
+                    value={this.state.email}
                 />
-
-                <TouchableOpacity onPress={() => this.login(this.state.email, this.state.password)} style={styles.boton}>
-                    <Text style = {styles.texto}> Login </Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Contraseña"
+                    secureTextEntry={true}
+                    onChangeText={(text) => this.setState({ password: text })}
+                    value={this.state.password}
+                />
+                <TouchableOpacity
+                    onPress={() => this.login(this.state.email, this.state.password)}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
-
-                <Text>
-                    {this.state.error}
-                </Text>
-
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Register")} style={styles.boton}> 
-                    <Text style = {styles.texto}>
-                        Ir al registro
-                    </Text>
+                {this.state.error ? <Text style={styles.error}>{this.state.error}</Text> : null}
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate("Register")}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Ir al Registro</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.boton}>
-                    <Text style = {styles.texto}>
-                        Ir al Home Menu
-                    </Text>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate("Home")}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Ir al Home Menu</Text>
                 </TouchableOpacity>
-
             </View>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-      paddingHorizontal: 10,
-      marginTop: 20 
+        flex: 1,
+        backgroundColor: "#f9f9f9",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 20,
     },
-    fields: {
-       height: 20,
-       paddingVertical: 15,
-       paddingHorizontal: 10,
-       borderWidth: 1,
-       borderColor: '#ccc',
-       borderStyle: 'solid',
-       borderRadius: 6,
-       marginVertical: 10
+    title: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#333",
+        marginBottom: 20,
     },
-    boton: {
-        backgroundColor: '#28a745',
-        paddingHorizontal: 10,
-        paddingVertical: 6,
-        textAlign: 'center',
-        borderRadius: 4,
+    input: {
+        width: "90%",
+        backgroundColor: "#fff",
+        borderColor: "#ddd",
         borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#28a745'
+        borderRadius: 8,
+        padding: 10,
+        marginBottom: 15,
     },
-    text: {
-        color: '#fff'
-    }
-  });
+    button: {
+        backgroundColor: "#007BFF",
+        padding: 15,
+        borderRadius: 8,
+        width: "90%",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    error: {
+        color: "red",
+        fontSize: 14,
+        marginTop: 10,
+        textAlign: "center",
+    },
+});
 
 export default Login

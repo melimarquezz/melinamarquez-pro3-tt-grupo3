@@ -54,32 +54,75 @@ class SearchResults extends Component {
     }
 
     render() {
-        console.log(this.state.encontrados);
         return (
-            <View>
+            <View style={styles.container}>
                 <TextInput
+                    style={styles.input}
                     placeholder="Introduzca un nombre de usuario"
                     onChangeText={(buscado) => {
                         this.setState({ buscado: buscado });
                         this.buscador(buscado);
                     }}
-                    value={this.state.buscado} />
-                    {this.state.error === "" ? 
-                <FlatList
-                    data={this.state.encontrados}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                        <View >
-                            <Text>Email: {item.data.email}</Text>
-                            <Text>Username: {item.data.username}</Text>
-                        </View>
-                    )}  
-                /> : 
-                <Text> {this.state.error} </Text>
-    }
+                    value={this.state.buscado}
+                />
+                {this.state.error ? (
+                    <Text style={styles.error}>{this.state.error}</Text>
+                ) : (
+                    <FlatList
+                        data={this.state.encontrados}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <View style={styles.listItem}>
+                                <Text style={styles.text}>Email: {item.data.email}</Text>
+                                <Text style={styles.text}>Username: {item.data.username}</Text>
+                            </View>
+                        )}
+                        style={styles.list}
+                    />
+                )}
             </View>
-        )
+        );
     }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#f9f9f9",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        padding: 20,
+    },
+    input: {
+        width: "90%",
+        backgroundColor: "#fff",
+        borderColor: "#ddd",
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 10,
+        marginBottom: 15,
+    },
+    list: {
+        flex: 1,
+        width: "100%",
+    },
+    listItem: {
+        backgroundColor: "#fff",
+        borderColor: "#ddd",
+        borderWidth: 1,
+        borderRadius: 8,
+        padding: 15,
+        marginVertical: 5,
+    },
+    text: {
+        fontSize: 16,
+        color: "#333",
+    },
+    error: {
+        color: "red",
+        fontSize: 14,
+        marginTop: 10,
+        textAlign: "center",
+    },
+});
 export default SearchResults;
