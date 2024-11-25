@@ -7,7 +7,6 @@ import Register from "../screens/Register";
 import Login from "../screens/Login";
 import Profile from "../screens/Profile";
 import NewPost from "../screens/NewPost";
-
 /* importar las screens*/
 
 const Tab = createBottomTabNavigator();

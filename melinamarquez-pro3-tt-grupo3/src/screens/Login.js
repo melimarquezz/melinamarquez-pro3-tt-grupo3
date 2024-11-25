@@ -76,7 +76,7 @@ class Login extends Component{
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.boton}>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate("LoggedMenu")} style={styles.boton}>
                     <Text style = {styles.texto}>
                         Ir al Home Menu
                     </Text>
