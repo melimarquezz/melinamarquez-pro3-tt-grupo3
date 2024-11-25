@@ -11,6 +11,8 @@ class Register extends Component {
             email: '',
             username: '',
             password: '',
+            error: "",
+            registrado: ""
         }
     }
 
@@ -27,14 +29,15 @@ class Register extends Component {
         } else {
         auth.createUserWithEmailAndPassword(email, pass)
             .then(response => {
-                this.setState({ registered: true });
-                this.props.navigation.navigate("LoggedMenu")
+                this.setState({ registrado: true });
+                this.props.navigation.navigate("Login") //probar de poner esto en el boton
                 console.log(this.state);
                 db.collection('usuario').add({
                     email: email,
                     password: pass,
                     username: username,
-                    createdAt: Date.now()
+                    createdAt: Date.now(), 
+                    registrado: true
                 })
                     .then()
                     .catch(e => console.log(e))
@@ -69,6 +72,8 @@ class Register extends Component {
                     onChangeText={text => this.setState({ password: text })}
                     value={this.state.password}
                 />
+
+                {this.state.error}
 
                 <TouchableOpacity onPress={() => this.register(this.state.email, this.state.password, this.state.username)}>
                     <Text>
