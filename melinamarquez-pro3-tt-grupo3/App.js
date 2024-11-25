@@ -19,13 +19,13 @@ export default function App() {
   return (
 
     /* esto es si los usuarios están logueados */
-    <NavigationContainer style={styles.contenedor}>
+    <NavigationContainer  >
       
 
-        <Stack.Navigator style={styles.menu}>
-        <Stack.Screen name='Login' component={Login} style={styles.vista} />
-        <Stack.Screen name='Register' component={Register} style={styles.vista}/>
-        <Stack.Screen name='LoggedMenu' component={LoggedMenu} style={styles.vista}/>
+        <Stack.Navigator screenOptions={{headerShown:false}} >
+        <Stack.Screen name='Login' component={Login}  />
+        <Stack.Screen name='Register' component={Register} />
+        <Stack.Screen name='LoggedMenu' component={LoggedMenu} />
         
         </Stack.Navigator> 
 
@@ -35,20 +35,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  contenedor: {
-    flex: 1, 
-    backgroundColor: "#f4f4f4", 
-  },
-  menu: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  vista: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-});
+
