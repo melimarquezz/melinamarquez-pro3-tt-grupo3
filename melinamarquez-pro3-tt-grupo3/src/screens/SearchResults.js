@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Movie from "../../components/Movie/Movie";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import { Text , FlatList, TextInput, View } from "react-native-web";
+import { db } from "../firebase/config";
 
 
 class SearchResults extends Component {
@@ -9,12 +8,15 @@ class SearchResults extends Component {
         super(props);
         this.state = {
             users: [],
-            backup: [],
-            cargador: true
+            buscado: "",
+            error: "",
+            buscador: false,
+            encontrados: []
         }
     }
+
     componentDidMount() {
-        db.collection('users').orderBy('createdAt', 'desc').onSnapshot(
+        db.collection('usuario').onSnapshot(
             docs => {
                 let users = [];
                 docs.forEach(doc => {
@@ -23,35 +25,59 @@ class SearchResults extends Component {
                         data: doc.data()
                     })
                     this.setState({
-                        users: users,
-                        loading: false
-                    })
+                        users: users
+                    });
                 })
-            }
-        )
-        console.log(users);
+            })
     }
-    buscador(usuario){
 
+
+    buscador(usuarios) {
+        let encontrados = this.state.users.filter((usuario) => {
+            let muestra= usuario.data.username.toLowerCase()
+            return muestra.includes(usuarios.toLowerCase());
+        })
+        this.setState({
+            encontrados : encontrados,
+            buscador: true
+        })
+        if (encontrados.length === 0) {
+            this.setState({
+                error: "No existe ese usuario"
+            })
+        }else {
+            this.setState({
+                error: ""
+            })
+        }
+        console.log(this.state.encontrados);        
     }
+
     render() {
+        console.log(this.state.encontrados);
         return (
-            <React.Fragment>
-                <Header />
-                <h1>Resultados para "{}" </h1>
-                <article >
-                    {this.state.cargador ?
-                        <h3 className="cargador">Cargando...</h3> :
-                        /*aca falta la condicion*/ !== 0 ?
-                            this.state.usuario.map((users, idx) => <Movie key={users + idx} data={users} />) :
-                            <h3 className="cargador">No hay resultados para "{this.props.match.params.usuario}" </h3>
-                    }
-                </article>
-
-
-
-                <Footer />
-            </React.Fragment>
+            <View>
+                <TextInput
+                    placeholder="Introduzca un nombre de usuario"
+                    onChangeText={(buscado) => {
+                        this.setState({ buscado: buscado });
+                        this.buscador(buscado);
+                    }}
+                    value={this.state.buscado} />
+                    {this.state.error === "" ? 
+                <FlatList
+                    data={this.state.encontrados}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View >
+                            <Text>Email: {item.data.email}</Text>
+                            <Text>Username: {item.data.username}</Text>
+                        </View>
+                    )}  
+                /> : 
+                <Text> {this.state.error} </Text>
+    }
+            </View>
         )
     }
 }

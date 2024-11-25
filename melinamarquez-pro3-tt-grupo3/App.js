@@ -15,22 +15,19 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
 
-  let userLogueado = auth.currentUser
+
   return (
 
     /* esto es si los usuarios están logueados */
     <NavigationContainer>
       
-        {userLogueado ? 
+
         <Stack.Navigator>
-         <Stack.Screen name='LoggedMenu' component={LoggedMenu} />
-         </Stack.Navigator>
-    
-          : 
-        <Stack.Navigator>
-        <Stack.Screen name='Register' component={Register} />
         <Stack.Screen name='Login' component={Login} />
-        </Stack.Navigator> }
+        <Stack.Screen name='Register' component={Register} />
+        <Stack.Screen name='LoggedMenu' component={LoggedMenu} />
+        
+        </Stack.Navigator> 
 
 
       

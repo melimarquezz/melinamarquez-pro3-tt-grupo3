@@ -2,12 +2,12 @@ import { Component } from "react";
 import { TextInput, TouchableOpacity } from "react-native";
 import { StyleSheet, Text } from "react-native";
 import { View } from "react-native";
-import { auth } from '../firebase/config'
+import { auth } from '../firebase/config';
 
 
 class Login extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state= {
             email: '',
             password: '',
@@ -76,7 +76,7 @@ class Login extends Component{
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=> this.props.navigation.navigate("LoggedMenu")} style={styles.boton}>
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate("Home")} style={styles.boton}>
                     <Text style = {styles.texto}>
                         Ir al Home Menu
                     </Text>
