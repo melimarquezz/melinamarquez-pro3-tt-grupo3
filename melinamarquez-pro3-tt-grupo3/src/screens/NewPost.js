@@ -33,7 +33,7 @@ class NewPost extends Component {
                     value = {this.state.post}
                 />
 
-                <TouchableOpacity onPress={() => this.post(this.state.post)} style={styles.boton}>
+                <TouchableOpacity onPress={() => {this.post(this.state.post); this.props.navigation.navigate("Home")}} style={styles.boton}>
                     <Text style={styles.tituloBoton}>
                         Postea
                     </Text>
