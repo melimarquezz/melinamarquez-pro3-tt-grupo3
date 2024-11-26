@@ -75,12 +75,7 @@ class Login extends Component{
                 >
                     <Text style={styles.buttonText}>Ir al Registro</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("Home")}
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Ir al Home Menu</Text>
-                </TouchableOpacity>
+            
             </View>
         );
     }
