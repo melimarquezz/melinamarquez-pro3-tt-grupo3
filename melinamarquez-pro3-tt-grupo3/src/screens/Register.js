@@ -12,7 +12,7 @@ class Register extends Component {
             username: '',
             password: '',
             error: "",
-            registrado: ""
+            registrado: true
         }
     }
 
@@ -67,13 +67,14 @@ class Register extends Component {
                 />
                 <TextInput style={styles.input}
                     keyboardType="default"
-                    placeholder="Password"
+                    placeholder="Password (mínimo 6 caracteres)"
                     secureTextEntry={true}
                     onChangeText={text => this.setState({ password: text })}
                     value={this.state.password}
                 />
+                
 
-                <View style={styles.textoBoton}>{this.state.error}</View>
+                {this.state.email !== null && this.state.password >6 && this.state.username !== null ? 
 
                 <TouchableOpacity onPress={() => {
                     this.register(this.state.email, this.state.password, this.state.username)
@@ -81,7 +82,7 @@ class Register extends Component {
                     <Text style={styles.textoBoton}>
                         Registrate
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>  :  <Text style={styles.texto} > *Completá los campos*</Text>}
                 
             </View>
         )
