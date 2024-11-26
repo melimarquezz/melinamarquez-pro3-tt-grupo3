@@ -73,7 +73,7 @@ class Register extends Component {
                     value={this.state.password}
                 />
 
-                {this.state.error}
+                <View style={styles.textoBoton}>{this.state.error}</View>
 
                 <TouchableOpacity onPress={() => {
                     this.register(this.state.email, this.state.password, this.state.username)
