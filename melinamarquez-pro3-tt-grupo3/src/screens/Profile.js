@@ -33,12 +33,26 @@ class Profile extends Component {
         this.setState({ posteos: posteosDelUsuario });
       });
     });
+
+    db.collection("usuario")
+    .where("email", "==", auth.currentUser.email)
+    .onSnapshot((snapshot) => {
+        let userData = snapshot.docs[0].data();
+        this.setState({
+          profile: {
+            username: userData.username,
+            email: userData.email,
+          },
+        });
+      
+    });
+
   }
 
   logout() {
     auth.signOut();
-    this.props.navigation.navigate("Login");
-  }
+    this.props.navigation.navigate("Login", { hideFooter: true });
+}
 
   eliminarPerfil(id) {
     auth.currentUser
@@ -72,41 +86,51 @@ class Profile extends Component {
 
   render() {
     return (
-      <View>
-        <Text style={styles.texto}>Mis Posteos</Text>
+      <View style={styles.container}>
+        <Text style={styles.arribaText}>Mi Perfil</Text>
+        <Text style={styles.texto}> Nombre de Usuario: {this.state.profile.username}</Text>
+        <Text style={styles.texto}>Email: {this.state.profile.email}</Text>
+  
+        <Text style={styles.arribaText}>Mis Posteos</Text>
         <FlatList
           data={this.state.posteos}
           keyExtractor={(unPost) => unPost.id}
           renderItem={({ item }) => (
-            <View style={{ marginBottom: 20 }}>
-              <Text style={styles.texto}>Descripción: {item.data.post}</Text>
-              <Text style={styles.texto}>Likes: {item.data.likes.length}</Text>
-              
-// botones de like y dislikear
+            <View style={styles.postContainer}>
+              <Text style={styles.postTexto}>Descripción: {item.data.post}</Text>
+              <Text style={styles.postTexto}>Likes: {item.data.likes.length}</Text>
+  
               {item.data.likes.includes(auth.currentUser.email) ? (
-                <TouchableOpacity onPress={() => this.desLikear(item.id)}>
-                  <Text style={styles.textoBoton}>Sacar Me Gusta</Text>
+                <TouchableOpacity
+                  onPress={() => this.desLikear(item.id)}
+                  style={styles.likeButton}
+                >
+                  <Text style={styles.likeButtonText}>Sacar Me Gusta</Text>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity onPress={() => this.likear(item.id)}>
-                  <Text style={styles.textoBoton}>Me Gusta</Text>
+                <TouchableOpacity
+                  onPress={() => this.likear(item.id)}
+                  style={styles.likeButton}
+                >
+                  <Text style={styles.likeButtonText}>Me Gusta</Text>
                 </TouchableOpacity>
               )}
-
-              
-              <TouchableOpacity onPress={() => this.borrarPost(item.id)}>
-                <Text style={styles.textoBoton}>Borrar Post</Text>
+  
+              <TouchableOpacity
+                onPress={() => this.borrarPost(item.id)}
+                style={styles.deleteButton}
+              >
+                <Text style={styles.deleteButtonText}>Borrar Post</Text>
               </TouchableOpacity>
             </View>
           )}
         />
-        
+  
         <View style={styles.seccionBoton}>
           <TouchableOpacity style={styles.button} onPress={() => this.logout()}>
             <Text style={styles.textoBoton}>Logout</Text>
           </TouchableOpacity>
-
-          
+  
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -123,27 +147,83 @@ class Profile extends Component {
       </View>
     );
   }
-}
+}  
 
 const styles = StyleSheet.create({
-  texto: { 
-    fontSize: 16,
-    marginVertical: 10
+    container: {
+      flex: 1,
+      backgroundColor: "#f9f9f9", 
+      padding: 15,
     },
-  textoBoton: { 
-    color: "blue",
-    marginVertical: 5 
+    texto: { 
+      fontSize: 18,
+      fontWeight: "bold",
+      marginVertical: 10,
+      color: "#333",
     },
-  button: { 
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: "red"
+    textoBoton: { 
+      color: "white",
+      fontSize: 16,
+      fontWeight: "bold",
     },
-  seccionBoton: { 
-    flexDirection: "row", 
-    justifyContent: "space-between", 
-    marginTop: 20 
-}
-});
+    button: { 
+      padding: 12,
+      backgroundColor: "blue", 
+      borderRadius: 5,
+      alignItems: "center",
+      marginVertical: 5,
+    },
+    postContainer: {
+      backgroundColor: "white",
+      padding: 15,
+      marginBottom: 15,
+      borderRadius: 8,
+      shadowColor: "#000",
+      shadowRadius: 4,
+      borderWidth: 1,
+      borderColor: "#ddd",
+    },
+    postTexto: {
+      fontSize: 16,
+      marginBottom: 8,
+      color: "#555",
+    },
+    likeButton: {
+      marginTop: 10,
+      padding: 10,
+      backgroundColor: "blue",
+      borderRadius: 5,
+      alignItems: "center",
+    },
+    likeButtonText: {
+      color: "white",
+      fontWeight: "bold",
+      fontSize: 16,
+    },
+    deleteButton: {
+      marginTop: 10,
+      padding: 10,
+      backgroundColor: "red",
+      borderRadius: 5,
+      alignItems: "center",
+    },
+    deleteButtonText: {
+      color: "white",
+      fontWeight: "bold",
+      fontSize: 16,
+    },
+    seccionBoton: { 
+      flexDirection: "row", 
+      justifyContent: "space-between", 
+      marginTop: 20,
+    },
+    arribaText: {
+      fontSize: 22,
+      fontWeight: "bold",
+      marginBottom: 20,
+      textAlign: "center",
+      color: "#333",
+    },
+  });
 
 export default Profile;

@@ -7,7 +7,6 @@ import Register from "../screens/Register";
 import Login from "../screens/Login";
 import Profile from "../screens/Profile";
 import NewPost from "../screens/NewPost";
-import SearchResults from "../screens/SearchResults";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 /* importar las screens*/
@@ -24,7 +23,7 @@ function LoggedMenu() {
             
             <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: () => <FontAwesome6 name="person" size={24} color="black" />}}/>
             <Tab.Screen name="NewPost" component={NewPost} options={{tabBarIcon: () => <MaterialIcons name="post-add" size={24} color="black" />}}/>
-            <Tab.Screen name="SearchResults" component={SearchResults} options={{tabBarIcon: () => <FontAwesome name="search" size={24} color="black" />}}/>
+            
 
         </Tab.Navigator>
     )
